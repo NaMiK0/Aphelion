@@ -11,15 +11,13 @@ class APODViewModel {
         self.client = client
     }
     
-    func fetchAPOD(){
-        Task{
-            isLoading = true
-            do{
-                apod = try await client.fetchAPOD()
-            } catch {
-                self.error = error
-            }
-            isLoading = false
+    func fetchAPOD() async {
+        isLoading = true
+        do{
+            apod = try await client.fetchAPOD()
+        } catch {
+            self.error = error
         }
+        isLoading = false
     }
 }
