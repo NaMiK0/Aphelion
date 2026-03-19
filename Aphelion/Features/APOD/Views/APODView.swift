@@ -35,8 +35,6 @@ struct APODView: View {
         }
         .task {
             await viewModel.fetchAPOD()
-            print("apod: \(viewModel.apod)")
-            print("error: \(viewModel.error)")
         }
     }
 }
