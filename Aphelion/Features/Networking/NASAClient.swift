@@ -1,6 +1,6 @@
 import Foundation
 
-class NASAClient {
+class NASAClient: NASAClientProtocol {
     func fetchAPOD() async throws -> APOD {
         let (data, _) = try await URLSession.shared.data(from: NASAEndpoint.apod.url)
         let decoder = JSONDecoder()
