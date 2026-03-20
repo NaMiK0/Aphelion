@@ -2,6 +2,7 @@ import SwiftUI
 
 struct APODView: View {
     @State private var viewModel = APODViewModel(client: NASAClient())
+    @State private var dragOffset: CGFloat = 0
     var body: some View {
         ScrollView{
             VStack{
@@ -59,6 +60,27 @@ struct APODView: View {
             .task {
                 await viewModel.fetchAPOD()
             }
+            .offset(x: dragOffset)
+            .simultaneousGesture(DragGesture(minimumDistance: 20, coordinateSpace: .global)
+                .onChanged{ value in
+                    dragOffset = value.translation.width
+                }
+                .onEnded { value in
+                    if value.translation.width < -100 {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            viewModel.goToNextDay()
+                        }
+                    } else if value.translation.width > 100 {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            viewModel.goToPreviousDay()
+                        }
+                    }
+                    dragOffset = 0
+                }
+                     
+                     
+                     
+            )
         }
         .preferredColorScheme(ColorScheme.dark)
     }
