@@ -7,3 +7,4 @@ struct APOD: Codable {
     let mediaType: String
     let copyright: String?
 }
+

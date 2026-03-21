@@ -8,7 +8,7 @@ struct APODView: View {
             VStack{
                 if !viewModel.isLoading {
                     if let apod = viewModel.apod {
-                        AsyncImage(url: URL(string: apod.url)){ image in
+                        CachedAsyncImage(url: URL(string: apod.url)){ image in
                             image
                                 .resizable()
                                 .scaledToFill()
