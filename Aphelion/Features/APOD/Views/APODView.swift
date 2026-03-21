@@ -6,55 +6,52 @@ struct APODView: View {
     var body: some View {
         ScrollView{
             VStack{
-                if viewModel.isLoading {
-                    ProgressView()
-                        .frame(width: 35, height: 35)
-                }
-                
-                if let apod = viewModel.apod {
-                    AsyncImage(url: URL(string: apod.url)){ image in
-                        image
-                            .resizable()
-                            .scaledToFill()
-                            .frame(maxWidth: .infinity)
-                            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                    } placeholder: {
-                        Text("Фотография грузится...")
-                            .foregroundStyle(Color.blue)
-                            .font(.title2)
-                            .padding()
-                    }
-                    .padding()
-                    
-                    VStack{
-                        HStack{
-                            Text(viewModel.formattedDate)
-                                .foregroundStyle(Color.gray)
-                                .font(.footnote)
-                            Spacer()
+                if !viewModel.isLoading {
+                    if let apod = viewModel.apod {
+                        AsyncImage(url: URL(string: apod.url)){ image in
+                            image
+                                .resizable()
+                                .scaledToFill()
+                                .frame(maxWidth: .infinity)
+                                .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                        } placeholder: {
+                            Text("Фотография грузится...")
+                                .foregroundStyle(Color.blue)
+                                .font(.title2)
+                                .padding()
                         }
+                        .padding()
                         
-                        HStack{
-                            if let author = apod.copyright {
-                                Text("Автор: \(author)")
+                        VStack{
+                            HStack{
+                                Text(viewModel.formattedDate)
                                     .foregroundStyle(Color.gray)
                                     .font(.footnote)
                                 Spacer()
                             }
+                            
+                            HStack{
+                                if let author = apod.copyright {
+                                    Text("Автор: \(author)")
+                                        .foregroundStyle(Color.gray)
+                                        .font(.footnote)
+                                    Spacer()
+                                }
+                            }
+                            
                         }
+                        .padding([.leading], 16)
                         
+                        
+                        Text(apod.title)
+                            .foregroundStyle(Color.indigo)
+                            .font(.title)
+                            .padding()
+                        
+                        Text(apod.explanation)
+                            .font(.title3)
+                            .padding()
                     }
-                    .padding([.leading], 16)
-                    
-                    
-                    Text(apod.title)
-                        .foregroundStyle(Color.indigo)
-                        .font(.title)
-                        .padding()
-                    
-                    Text(apod.explanation)
-                        .font(.title3)
-                        .padding()
                 }
             }
             .task {
@@ -77,12 +74,18 @@ struct APODView: View {
                     }
                     dragOffset = 0
                 }
-                     
-                     
-                     
+                                 
+                                 
+                                 
             )
         }
         .preferredColorScheme(ColorScheme.dark)
+        .overlay{
+            if viewModel.isLoading {
+                ProgressView()
+                    .frame(width: 35, height: 35)
+            }
+        }
     }
 }
 

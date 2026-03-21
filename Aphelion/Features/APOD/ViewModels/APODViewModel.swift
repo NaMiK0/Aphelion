@@ -43,6 +43,7 @@ class APODViewModel {
     }
     
     func goToPreviousDay() {
+        isLoading = true
         if let newDate = Calendar.current.date(byAdding: .day, value: -1, to: currentDate){
             currentDate = newDate
         }
@@ -50,9 +51,11 @@ class APODViewModel {
         Task {
             await fetchAPOD()
         }
+        isLoading = false
     }
     
     func goToNextDay() {
+        isLoading = true
         if let newDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate) {
             currentDate = newDate
         }
@@ -60,6 +63,7 @@ class APODViewModel {
         Task {
             await fetchAPOD()
         }
+        isLoading = false
     }
     
     
