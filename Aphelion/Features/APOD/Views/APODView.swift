@@ -63,16 +63,18 @@ struct APODView: View {
                     dragOffset = value.translation.width
                 }
                 .onEnded { value in
-                    if value.translation.width < -100 {
-                        withAnimation(.easeInOut(duration: 0.3)) {
+                    if value.translation.width < -150 {
+                        withAnimation(.easeInOut(duration: 0.6)) {
                             viewModel.goToNextDay()
                         }
-                    } else if value.translation.width > 100 {
-                        withAnimation(.easeInOut(duration: 0.3)) {
+                    } else if value.translation.width > 150 {
+                        withAnimation(.easeInOut(duration: 0.6)) {
                             viewModel.goToPreviousDay()
                         }
                     }
-                    dragOffset = 0
+                    withAnimation(.easeOut(duration: 0.6)) {
+                        dragOffset = 0
+                    }
                 }
                                  
                                  
@@ -80,6 +82,25 @@ struct APODView: View {
             )
         }
         .preferredColorScheme(ColorScheme.dark)
+        .overlay(alignment: dragOffset > 0 ? .leading : .trailing) {
+            if dragOffset != 0 {
+                let intensity = min(abs(dragOffset) / 170, 1.0)
+                Rectangle()
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                Color(red: 0.6, green: 0.3, blue: 1.0).opacity(0.7 * intensity),
+                                Color(red: 0.3, green: 0.1, blue: 0.8).opacity(0.3 * intensity),
+                                .clear
+                            ],
+                            startPoint: dragOffset > 0 ? .leading : .trailing,
+                            endPoint: dragOffset > 0 ? .trailing : .leading
+                        )
+                    )
+                    .frame(width: 80)
+                    .allowsHitTesting(false)
+            }
+        }
         .overlay{
             if viewModel.isLoading {
                 ProgressView()
