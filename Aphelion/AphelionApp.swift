@@ -1,11 +1,5 @@
-//
-//  AphelionApp.swift
-//  Aphelion
-//
-//  Created by Nikita on 18.03.2026.
-//
-
 import SwiftUI
+import SwiftData
 
 @main
 struct AphelionApp: App {
@@ -13,5 +7,6 @@ struct AphelionApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: FavoriteAPOD.self)
     }
 }
