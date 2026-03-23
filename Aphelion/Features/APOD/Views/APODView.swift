@@ -16,7 +16,7 @@ struct APODView: View {
                                 image
                                     .resizable()
                                     .scaledToFill()
-                                    .frame(maxWidth: .infinity)
+                                    .frame(maxWidth: .infinity, maxHeight: 400)
                                     .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                                     .shadow(color: Color(red: 0.3, green: 0.1, blue: 0.8).opacity(0.5), radius: 15)
                             } placeholder: {
