@@ -3,7 +3,6 @@ import SwiftData
 
 struct FavoritesView: View {
     @Query private var favorites: [FavoriteAPOD]
-    
     var body: some View {
         if favorites.isEmpty {
             VStack{
@@ -42,7 +41,7 @@ struct FavoritesView: View {
                                     .font(.headline)
                                     .lineLimit(2)
                                 
-                                Text(favorite.date)
+                                Text(favorite.formattedDate)
                                     .foregroundStyle(Color.gray)
                                     .font(.caption)
                                 
