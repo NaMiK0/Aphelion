@@ -3,6 +3,7 @@ import SwiftData
 
 struct FavoritesView: View {
     @Query private var favorites: [FavoriteAPOD]
+    @Environment(\.modelContext) private var modelContext
     var body: some View {
         if favorites.isEmpty {
             VStack{
@@ -20,7 +21,9 @@ struct FavoritesView: View {
                     LazyVStack(spacing: 14) {
                         ForEach(favorites) { favorite in
                             NavigationLink(destination: APODView(initialDate: favorite.formattedDate)) {
-                                FavoriteCardView(favorite: favorite)
+                                FavoriteCardView(favorite: favorite) {
+                                    modelContext.delete(favorite)
+                                }
                             }
                         }
                     }

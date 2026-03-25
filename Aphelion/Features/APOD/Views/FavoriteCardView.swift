@@ -1,24 +1,39 @@
 import SwiftUI
 
 struct FavoriteCardView: View {
+    @State private var showAlertDelete: Bool = false
     let favorite: FavoriteAPOD
+    var onDelete: () -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            CachedAsyncImage(url: URL(string: favorite.imageURL)) { image in
-                image
-                    .resizable()
-                    .scaledToFill()
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 180)
-                    .clipped()
-            } placeholder: {
-                Rectangle()
-                    .fill(Color.gray.opacity(0.2))
-                    .frame(height: 180)
-                    .overlay {
-                        ProgressView()
-                    }
+            ZStack(alignment: .topTrailing) {
+                CachedAsyncImage(url: URL(string: favorite.imageURL)) { image in
+                    image
+                        .resizable()
+                        .scaledToFill()
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 180)
+                        .clipped()
+                } placeholder: {
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.2))
+                        .frame(height: 180)
+                        .overlay {
+                            ProgressView()
+                        }
+                }
+                
+                Button {
+                    showAlertDelete = true
+                } label: {
+                    Image(systemName: "star.fill")
+                        .foregroundStyle(Color.indigo)
+                        .font(.title2)
+                        .padding(8)
+                        .background(.ultraThinMaterial, in: Circle())
+                }
+                .padding()
             }
             
             VStack(alignment: .leading, spacing: 6) {
@@ -37,6 +52,15 @@ struct FavoriteCardView: View {
                     .lineLimit(3)
             }
             .padding(14)
+        }
+        .alert("Удаление из избранного", isPresented: $showAlertDelete) {
+            Button("Удалить", role: .destructive) {
+                onDelete()
+            }
+            
+            Button("Отмена", role: .cancel) {}
+        } message: {
+            Text("Вы точно хотите удалить публикацию?")
         }
         .background(Color.white.opacity(0.1))
         .clipShape(RoundedRectangle(cornerRadius: 16))
