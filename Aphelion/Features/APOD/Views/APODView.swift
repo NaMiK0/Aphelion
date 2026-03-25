@@ -2,7 +2,7 @@ import SwiftUI
 import SwiftData
 
 struct APODView: View {
-    @State private var viewModel = APODViewModel(client: NASAClient())
+    @State private var viewModel = APODViewModel(client: NASAClient(), selectDate: Date())
     @State private var dragOffset: CGFloat = 0
     @State private var showDatePicker: Bool = false
     @State private var selectedDate: Date = Date()
@@ -10,6 +10,12 @@ struct APODView: View {
     @Query private var favorites: [FavoriteAPOD]
     private var isFavorite: Bool { favorites.contains(where: { $0.date == viewModel.currentDateString }) }
     let startDate = Calendar.current.date(from: DateComponents(year: 1995, month: 6, day: 16))!
+    
+    init(initialDate: Date = Date()) {
+        _viewModel = State(initialValue: APODViewModel(client: NASAClient(), selectDate: initialDate))
+    }
+    
+    
     var body: some View {
         NavigationStack {
             ScrollView{

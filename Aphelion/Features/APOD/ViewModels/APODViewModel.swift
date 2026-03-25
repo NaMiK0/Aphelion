@@ -10,8 +10,9 @@ class APODViewModel {
     private var cache: [String: APOD] = [:]
     private let client: NASAClientProtocol
 
-    init(client: NASAClientProtocol) {
+    init(client: NASAClientProtocol, selectDate: Date = Date()) {
         self.client = client
+        self.currentDate = selectDate
     }
 
     var formattedDate: String {
