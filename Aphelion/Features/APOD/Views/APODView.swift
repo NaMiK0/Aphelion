@@ -12,7 +12,7 @@ struct APODView: View {
     let startDate = Calendar.current.date(from: DateComponents(year: 1995, month: 6, day: 16))!
     
     init(initialDate: Date = Date()) {
-        _viewModel = State(initialValue: APODViewModel(client: NASAClient(), selectDate: initialDate))
+        _viewModel = State(wrappedValue: APODViewModel(client: NASAClient(), selectDate: initialDate))
     }
     
     

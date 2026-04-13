@@ -1,9 +1,16 @@
 import SwiftUI
 import SwiftData
 
+struct IdentifiableDate: Identifiable, Hashable {
+    let id = UUID()
+    let date: Date
+}
+
+
 struct FavoritesView: View {
     @Query private var favorites: [FavoriteAPOD]
     @Environment(\.modelContext) private var modelContext
+    @State private var navigationTo: IdentifiableDate? = nil
     var body: some View {
         if favorites.isEmpty {
             VStack{
@@ -21,12 +28,19 @@ struct FavoritesView: View {
                     LazyVStack(spacing: 14) {
                         ForEach(favorites) { favorite in
                             NavigationLink(destination: APODView(initialDate: favorite.formattedDate)) {
-                                FavoriteCardView(favorite: favorite) {
+                                FavoriteCardView(favorite: favorite,
+                                                 onDelete: {
                                     modelContext.delete(favorite)
-                                }
+                                },
+                                                 onNavigation: {
+                                    navigationTo = IdentifiableDate(date: favorite.formattedDate)
+                                })
                             }
                         }
                     }
+                }
+                .navigationDestination(item: $navigationTo) { item in
+                    APODView(initialDate: item.date)
                 }
             }
         }

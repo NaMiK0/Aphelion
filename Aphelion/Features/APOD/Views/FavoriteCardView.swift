@@ -4,6 +4,7 @@ struct FavoriteCardView: View {
     @State private var showAlertDelete: Bool = false
     let favorite: FavoriteAPOD
     var onDelete: () -> Void
+    var onNavigation: () -> Void
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -52,6 +53,19 @@ struct FavoriteCardView: View {
                     .lineLimit(3)
             }
             .padding(14)
+        }
+        .contextMenu {
+            Button (role: .destructive){
+                onDelete()
+            } label: {
+                Text("Удалить")
+            }
+            
+            Button {
+                onNavigation()
+            } label: {
+                Text("Перейти к публикации")
+            }
         }
         .alert("Удаление из избранного", isPresented: $showAlertDelete) {
             Button("Удалить", role: .destructive) {
