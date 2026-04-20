@@ -64,6 +64,7 @@ struct ISSView: View {
                                 .foregroundStyle(.white)
                         }
                     }
+                    Text(viewModel.locationName)
                 }
                 .padding()
                 .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
