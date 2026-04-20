@@ -10,6 +10,10 @@ struct ContentView: View {
             Tab("Избранное", systemImage: "star.square.on.square.fill") {
                 FavoritesView()
             }
+            
+            Tab("ISS", systemImage: "globe") {
+                ISSView()
+            }
         }
         
         
