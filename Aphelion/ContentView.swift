@@ -18,6 +18,10 @@ struct ContentView: View {
             Tab("ISS", systemImage: "globe") {
                 ISSView()
             }
+            
+            Tab("Марс", systemImage: "globe.americas") {
+                MarsRoverView()
+            }
         }
         .tint(Color.indigo)
         
