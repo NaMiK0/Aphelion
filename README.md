@@ -36,7 +36,7 @@ Aphelion создан для людей которым интересна нау
 ### 1. Клонирование репозитория
 
 ```bash
-git clone https://github.com/your-username/Aphelion.git
+git clone https://github.com/NaMiK0/Aphelion.git
 cd Aphelion
 ```
 
